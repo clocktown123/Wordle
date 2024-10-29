@@ -1,0 +1,101 @@
+import pygame
+import sys
+from wonderwords import RandomWord
+
+# Initialize Pygame
+pygame.init()
+
+# Set up display
+screen = pygame.display.set_mode((800, 800))
+pygame.display.set_caption('Text Box Example')
+
+Rword = RandomWord().word(word_min_length = 5, word_max_length = 5)
+print(Rword)
+
+# Define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+
+# Set up font
+font = pygame.font.Font(None, 36)
+
+# Text box variables
+input_text = ''
+active = True
+text_box_rect = pygame.Rect(300, 200, 200, 40)
+text_box_rect2 = pygame.Rect(300, 300, 200, 40)
+text_box_rect3 = pygame.Rect(300, 400, 200, 40)
+text_box_rect4 = pygame.Rect(300, 500, 200, 40)
+text_box_rect5 = pygame.Rect(300, 600, 200, 40)
+text_box_rect6 = pygame.Rect(300, 700, 200, 40)
+
+#guesses left
+tries = 6
+
+#text on the screen
+text_font = pygame.font.SysFont("Sans", 30, bold = True)
+
+def draw_text(text, font, text_col, tx, ty):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (tx, ty))
+
+guesses = []
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        #active = True  # Toggle active state
+
+        # Handle key presses
+        if event.type == pygame.KEYDOWN:
+            if active:
+                if event.key == pygame.K_RETURN and len(input_text) == 5:  # Submit on Enter
+                    print("User input:", input_text)
+                    input_text = ''  # Clear input after submission
+                    tries -= 1
+                elif event.key == pygame.K_BACKSPACE:  # Handle backspace
+                    input_text = input_text[:-1]
+                else:
+                    input_text += event.unicode  # Add character to input_text
+        
+        #logic section
+        
+        
+
+    # Fill screen with white
+    screen.fill(WHITE)
+
+    # Draw the text box
+    pygame.draw.rect(screen, GRAY if active else BLACK, text_box_rect, 2)
+    pygame.draw.rect(screen, GRAY if active else BLACK, text_box_rect2, 2)
+    pygame.draw.rect(screen, GRAY if active else BLACK, text_box_rect3, 2)
+    pygame.draw.rect(screen, GRAY if active else BLACK, text_box_rect4, 2)
+    pygame.draw.rect(screen, GRAY if active else BLACK, text_box_rect5, 2)
+    pygame.draw.rect(screen, GRAY if active else BLACK, text_box_rect6, 2)
+
+    # Render the input text
+    text_surface = font.render(input_text, True, BLACK)
+    if tries == 6:
+        screen.blit(text_surface, (text_box_rect.x + 5, text_box_rect.y + 5))
+    elif tries == 5:
+        screen.blit(text_surface, (text_box_rect2.x + 5, text_box_rect2.y + 5))
+    elif tries == 4:
+        screen.blit(text_surface, (text_box_rect3.x + 5, text_box_rect3.y + 5))
+    elif tries == 3:
+        screen.blit(text_surface, (text_box_rect4.x + 5, text_box_rect4.y + 5))
+    elif tries == 2:
+        screen.blit(text_surface, (text_box_rect5.x + 5, text_box_rect5.y + 5))
+    elif tries == 1:
+        screen.blit(text_surface, (text_box_rect6.x + 5, text_box_rect6.y + 5))
+    
+    
+    
+    draw_text("tires left: ", text_font, (0,0,0), 320, 50)
+    #draw_text("5 letter words only", text_font, (0,0,0), 320, 250)
+    draw_text(str(int(tries)), text_font, (0,0,0), 460, 50)
+
+    pygame.display.flip()
