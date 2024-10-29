@@ -52,7 +52,7 @@ def draw_text(text, font, text_col, tx, ty):
     img = font.render(text, True, text_col)
     screen.blit(img, (tx, ty))
 
-guesses = []
+guesses = ["heyyy"]
 
 while True:
     for event in pygame.event.get():
@@ -67,6 +67,7 @@ while True:
             if active:
                 if event.key == pygame.K_RETURN and len(input_text) == 5:  # Submit on Enter
                     print("User input:", input_text)
+                    guesses.append(input_text)
                     input_text = ''  # Clear input after submission
                     tries -= 1
                 elif event.key == pygame.K_BACKSPACE:  # Handle backspace
@@ -102,6 +103,9 @@ while True:
             if i < len(guesses):
                 color = GREY
                 pygame.draw.rect(screen,color, square)
+                letter = font.render(guesses[i][j], False, (255,255,255))
+                surface = letter.get_rect(center = (x+SQ_SIZE//2, y+SQ_SIZE//2))
+                screen.blit(letter, surface)
             
             x += SQ_SIZE + MARGIN
         y += SQ_SIZE + MARGIN
