@@ -128,7 +128,7 @@ while True:
     
     
     
-    draw_text("tires left: ", text_font, (0,0,0), 320, 50)
+    draw_text("tries left: ", text_font, (0,0,0), 320, 50)
     #draw_text("5 letter words only", text_font, (0,0,0), 320, 250)
     draw_text(str(int(tries)), text_font, (0,0,0), 460, 50)
 
