@@ -7,7 +7,7 @@ from wonderwords import RandomWord
 pygame.init()
 
 # Set up display
-screen = pygame.display.set_mode((800, 800))
+screen = pygame.display.set_mode((800, 900))
 pygame.display.set_caption('Text Box Example')
 
 Rword = RandomWord().word(word_min_length = 5, word_max_length = 5)
@@ -25,15 +25,9 @@ font = pygame.font.Font(None, 36)
 # Text box variables
 input_text = ''
 active = True
-#text_box_rect = pygame.Rect(300, 200, 200, 40)
-#text_box_rect2 = pygame.Rect(300, 300, 200, 40)
-#text_box_rect3 = pygame.Rect(300, 400, 200, 40)
-#text_box_rect4 = pygame.Rect(300, 500, 200, 40)
-#text_box_rect5 = pygame.Rect(300, 600, 200, 40)
-#text_box_rect6 = pygame.Rect(300, 700, 200, 40)
 
 MARGIN = 10
-T_MARGIN = 100
+T_MARGIN = 140
 B_MARGIN = 100
 LR_MARGIN = 100
 
@@ -54,6 +48,10 @@ def draw_text(text, font, text_col, tx, ty):
     screen.blit(img, (tx, ty))
 
 guesses = []
+
+Alphabet = ['ABCDEFGHIJKLMOPQRSTUV']
+
+print(Alphabet)
 
 def determine_color(guess, Answer, j):
     letter = guess[j]
@@ -106,7 +104,7 @@ while True:
     
     y = T_MARGIN
     for i in range(6):
-        x = LR_MARGIN
+        x = LR_MARGIN + 100
         for j in range(5):
             square = pygame.Rect(x, y, SQ_SIZE, SQ_SIZE)
             pygame.draw.rect(screen, GREY, square, width=2, border_radius = 3)
@@ -126,11 +124,17 @@ while True:
             x += SQ_SIZE + MARGIN
         y += SQ_SIZE + MARGIN
     
-    
+    #draw_text(Alphabet, letter, (0,0,0), 320, 750)
     
     draw_text("tries left: ", text_font, (0,0,0), 320, 50)
     #draw_text("5 letter words only", text_font, (0,0,0), 320, 250)
     draw_text(str(int(tries)), text_font, (0,0,0), 460, 50)
-
+    
+    if tries == 0:
+        draw_text(Answer, text_font, (0,0,0), 320, 750)
+    elif Answer in guesses:
+        draw_text(Answer, text_font, (0,0,0), 320, 750)
+        
     pygame.display.flip()
+
 
