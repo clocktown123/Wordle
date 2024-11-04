@@ -49,9 +49,10 @@ def draw_text(text, font, text_col, tx, ty):
 
 guesses = []
 
-Alphabet = ['ABCDEFGHIJKLMOPQRSTUV']
+Alphabet = "ABCDEFGHIJKLMOPQRSTUV"
+notGuessed = ["ABCDEFGHIJKLMOPQRSTUV"]
 
-print(Alphabet)
+
 
 def determine_color(guess, Answer, j):
     letter = guess[j]
@@ -101,6 +102,10 @@ while True:
     screen.fill(WHITE)
 
     text_surface = font.render(input_text, True, BLACK)
+
+    #letters = font.render(notGuessed, False, GREY)
+    #surface = letters.get_rect(center = (600//2, T_MARGIN//2))
+    #screen.blit(letters, surface)
     
     y = T_MARGIN
     for i in range(6):
@@ -109,13 +114,15 @@ while True:
             square = pygame.Rect(x, y, SQ_SIZE, SQ_SIZE)
             pygame.draw.rect(screen, GREY, square, width=2, border_radius = 3)
             
+            #background color
             if i < len(guesses):
                 color = determine_color(guesses[i], Answer, j)
                 pygame.draw.rect(screen, color, square, border_radius = 3)
                 letter = font.render(guesses[i][j], False, (255,255,255))
                 surface = letter.get_rect(center = (x+SQ_SIZE//2, y+SQ_SIZE//2))
                 screen.blit(letter, surface)
-            
+                
+            # letters
             if i == len(guesses) and j < len(input_text):
                 letter = font.render(input_text[j], False, GREY)
                 surface = letter.get_rect(center = (x+SQ_SIZE//2, y+SQ_SIZE//2))
@@ -125,9 +132,15 @@ while True:
         y += SQ_SIZE + MARGIN
     
     #draw_text(Alphabet, letter, (0,0,0), 320, 750)
+
+    #Letter_Color = determine_color(notGuessed[i], input_text, j)
+
+    if "A" in Alphabet and "A" in Answer and "A" :
+        print("True")
+
+    draw_text(Alphabet, text_font, GREY, 200, 800)
     
     draw_text("tries left: ", text_font, (0,0,0), 320, 50)
-    #draw_text("5 letter words only", text_font, (0,0,0), 320, 250)
     draw_text(str(int(tries)), text_font, (0,0,0), 460, 50)
     
     if tries == 0:
@@ -136,5 +149,4 @@ while True:
         draw_text(Answer, text_font, (0,0,0), 320, 750)
         
     pygame.display.flip()
-
 
