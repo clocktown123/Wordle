@@ -49,8 +49,9 @@ def draw_text(text, font, text_col, tx, ty):
 
 guesses = []
 
-Alphabet = "ABCDEFGHIJKLMOPQRSTUV"
-notGuessed = ["ABCDEFGHIJKLMOPQRSTUV"]
+
+Alphabet = "ABCDEFGHIJKLNMOPQRSTUVWXYZ"
+
 
 
 
@@ -72,6 +73,21 @@ def determine_color(guess, Answer, j):
         if n_target > n_correct + n_occurrence:
             return YELLOW
     return GREY
+
+def Alphabet_colors(guesses, Answer):
+    # Create a dictionary to store the color of each letter
+    letter_colors = {letter: BLACK for letter in Alphabet}  # Default color is gray
+
+    # Check each guess
+    for guess in guesses:
+        for j, letter in enumerate(guess):
+            if letter == Answer[j]:
+                letter_colors[letter] = GREEN
+            elif letter in Answer and letter_colors[letter] != GREEN:
+                letter_colors[letter] = YELLOW
+            elif letter not in Answer and letter_colors[letter] != GREEN:
+                letter_colors[letter] = GRAY
+    return letter_colors
 
 while True:
     for event in pygame.event.get():
@@ -121,24 +137,27 @@ while True:
                 letter = font.render(guesses[i][j], False, (255,255,255))
                 surface = letter.get_rect(center = (x+SQ_SIZE//2, y+SQ_SIZE//2))
                 screen.blit(letter, surface)
-                
-            # letters
+            
             if i == len(guesses) and j < len(input_text):
                 letter = font.render(input_text[j], False, GREY)
                 surface = letter.get_rect(center = (x+SQ_SIZE//2, y+SQ_SIZE//2))
                 screen.blit(letter, surface)
+
+        
             
             x += SQ_SIZE + MARGIN
         y += SQ_SIZE + MARGIN
     
-    #draw_text(Alphabet, letter, (0,0,0), 320, 750)
+    letter_colors = Alphabet_colors(guesses, Answer)
+    xpos = 20
+    ypos = 800
 
-    #Letter_Color = determine_color(notGuessed[i], input_text, j)
+    for i, letter in enumerate(Alphabet):
+        color = letter_colors[letter]
+        letter_surface = font.render(letter, True, color)
+        screen.blit(letter_surface, (xpos + i * 30, ypos))
 
-    if "A" in Alphabet and "A" in Answer and "A" :
-        print("True")
-
-    draw_text(Alphabet, text_font, GREY, 200, 800)
+    
     
     draw_text("tries left: ", text_font, (0,0,0), 320, 50)
     draw_text(str(int(tries)), text_font, (0,0,0), 460, 50)
@@ -149,4 +168,3 @@ while True:
         draw_text(Answer, text_font, (0,0,0), 320, 750)
         
     pygame.display.flip()
-
